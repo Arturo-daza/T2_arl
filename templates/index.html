@@ -1,12 +1,9 @@
 <!DOCTYPE html>
-<html lang="es" class="bg-gray-900 text-white">
+<html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <title>Calculadora de ARL</title>
-    <!-- Incluir Tailwind CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <!-- Incluir Plotly -->
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <script>
         function toggleFields() {
             var useAlpha = document.getElementById('alpha_option').checked;
@@ -23,96 +20,70 @@
         }
     </script>
 </head>
-<body onload="toggleFields();" class="bg-gray-900 text-white min-h-screen">
-    <div class="container mx-auto py-8">
-        <!-- Título -->
-        <h1 class="text-3xl font-bold mb-6 text-center">Calculadora de ARL y ARL Intercalado</h1>
 
-        <!-- Formulario -->
-        {% if error %}
-            <p class="text-red-500 text-center mb-4">{{ error }}</p>
-        {% endif %}
-        <form method="post" class="bg-gray-800 p-6 rounded-lg shadow-lg mb-8">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                    <label for="m" class="block font-medium mb-1">Número de Muestras (m):</label>
-                    <input type="number" id="m" name="m" required value="{{ m if m is not none else '' }}" class="w-full p-2 rounded bg-gray-700 text-white">
-                </div>
-                <div>
-                    <label for="n" class="block font-medium mb-1">Tamaño de Muestra (n):</label>
-                    <input type="number" id="n" name="n" required value="{{ n if n is not none else '' }}" class="w-full p-2 rounded bg-gray-700 text-white">
-                </div>
-                <div>
-                    <label for="p" class="block font-medium mb-1">Número de Variables (p):</label>
-                    <input type="number" id="p" name="p" required value="{{ p if p is not none else '' }}" class="w-full p-2 rounded bg-gray-700 text-white">
-                </div>
-                <div>
-                    <label for="Delta" class="block font-medium mb-1">Desplazamiento Delta:</label>
-                    <input type="number" step="any" id="Delta" name="Delta" required value="{{ Delta if Delta is not none else '' }}" class="w-full p-2 rounded bg-gray-700 text-white">
-                </div>
-                <div>
-                    <label for="L" class="block font-medium mb-1">Parámetro L:</label>
-                    <input type="number" id="L" name="L" required value="{{ L if L is not none else '' }}" class="w-full p-2 rounded bg-gray-700 text-white">
-                </div>
-            </div>
+<body onload="toggleFields();">
+    <h1>Calculadora de ARL y ARL Intercalado</h1>
+    {% if error %}
+    <p style="color:red;">{{ error }}</p>
+    {% endif %}
+    <form method="post">
+        <label for="m">Número de Muestras (m):</label><br>
+        <input type="number" id="m" name="m" required value="{{ m if m is not none else '' }}"><br><br>
 
-            <div class="mt-4">
-                <label class="block font-medium mb-2">Seleccione una opción:</label>
-                <div class="flex items-center mb-2">
-                    <input type="radio" id="alpha_option" name="use_alpha" value="alpha" onclick="toggleFields();" {% if use_alpha == 'alpha' %}checked{% endif %} class="mr-2">
-                    <label for="alpha_option">Usar Alpha</label>
-                </div>
-                <div class="flex items-center mb-2">
-                    <input type="radio" id="LCynt_option" name="use_alpha" value="LCynt" onclick="toggleFields();" {% if use_alpha == 'LCynt' %}checked{% endif %} class="mr-2">
-                    <label for="LCynt_option">Usar LCynt</label>
-                </div>
-                <div id="alpha_field" class="mt-2" style="display: none;">
-                    <label for="alpha" class="block font-medium mb-1">Nivel de Significancia Alpha:</label>
-                    <input type="number" step="any" id="alpha" name="alpha" value="{{ alpha if alpha is not none else '' }}" class="w-full p-2 rounded bg-gray-700 text-white">
-                </div>
-                <div id="LCynt_field" class="mt-2" style="display: none;">
-                    <label for="LCynt" class="block font-medium mb-1">Límite de Control Superior (LCynt):</label>
-                    <input type="number" step="any" id="LCynt" name="LCynt" value="{{ LCynt if LCynt is not none else '' }}" class="w-full p-2 rounded bg-gray-700 text-white">
-                </div>
-            </div>
+        <label for="n">Tamaño de Muestra (n):</label><br>
+        <input type="number" id="n" name="n" required value="{{ n if n is not none else '' }}"><br><br>
 
-            <div class="mt-6">
-                <input type="submit" value="Calcular" class="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 rounded text-white font-bold">
-            </div>
-        </form>
+        <label for="p">Número de Variables (p):</label><br>
+        <input type="number" id="p" name="p" required value="{{ p if p is not none else '' }}"><br><br>
 
-        <!-- Resultados y Gráficas -->
-        {% if results %}
-        <div class="flex flex-col md:flex-row md:space-x-6">
-            <!-- Sección de Resultados -->
-            <div class="w-full md:w-1/4">
-                <div class="bg-gray-800 p-6 rounded-lg shadow-lg mb-6">
-                    <h2 class="text-2xl font-bold mb-4 text-center">Resultados</h2>
-                    <p><strong>ARL:</strong> {{ results['ARL'] }}</p>
-                    <p><strong>ARL Intercalado:</strong> {{ results['ARL_Intercalado'] }}</p>
-                </div>
-            </div>
+        <label for="Delta">Desplazamiento Delta:</label><br>
+        <input type="number" step="any" id="Delta" name="Delta" required
+            value="{{ Delta if Delta is not none else '' }}"><br><br>
 
-            <!-- Sección de Gráficas -->
-            <div class="w-full md:w-3/4">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="bg-gray-800 p-4 rounded-lg shadow-lg">
-                        <h2 class="text-xl font-bold mb-2 text-center">Gráfica de T² con Límite LCynt</h2>
-                        {{ grafica_t2|safe }}
-                    </div>
-                    <div class="bg-gray-800 p-4 rounded-lg shadow-lg">
-                        <h2 class="text-xl font-bold mb-2 text-center">Gráfica de CRL con Límite L</h2>
-                        {{ grafica_arl|safe }}
-                    </div>
-                </div>
-            </div>
+        <label for="L">Parámetro L:</label><br>
+        <input type="number" id="L" name="L" required value="{{ L if L is not none else '' }}"><br><br>
+
+        <label>Seleccione una opción:</label><br>
+        <input type="radio" id="alpha_option" name="use_alpha" value="alpha" onclick="toggleFields();" {% if
+            use_alpha=='alpha' %}checked{% endif %}>
+        <label for="alpha_option">Usar Alpha</label><br>
+        <input type="radio" id="LCynt_option" name="use_alpha" value="LCynt" onclick="toggleFields();" {% if
+            use_alpha=='LCynt' %}checked{% endif %}>
+        <label for="LCynt_option">Usar LCynt</label><br><br>
+
+        <div id="alpha_field" style="display: none;">
+            <label for="alpha">Nivel de Significancia Alpha:</label><br>
+            <input type="number" step="any" id="alpha" name="alpha"
+                value="{{ alpha if alpha is not none else '' }}"><br><br>
         </div>
-        {% endif %}
-    </div>
 
-    <!-- Llamar a toggleFields() nuevamente -->
+        <div id="LCynt_field" style="display: none;">
+            <label for="LCynt">Límite de Control Superior (LCynt):</label><br>
+            <input type="number" step="any" id="LCynt" name="LCynt"
+                value="{{ LCynt if LCynt is not none else '' }}"><br><br>
+        </div>
+
+        <input type="submit" value="Calcular">
+    </form>
+
+    {% if results %}
+    <h2>Resultados:</h2>
+    <p><strong>ARL:</strong> {{ results['ARL'] }}</p>
+    <p><strong>ARL Intercalado:</strong> {{ results['ARL_Intercalado'] }}</p>
+
+    <h2>Gráfica de T² con Límite LCynt:</h2>
+    {{ grafica_t2|safe }}
+
+    {% endif %}
+
+    <!-- Incluir la biblioteca de Plotly -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+
     <script>
+        // Llamar a toggleFields() nuevamente para asegurar que los campos se muestren correctamente después de cargar los valores
         toggleFields();
     </script>
 </body>
+
 </html>
