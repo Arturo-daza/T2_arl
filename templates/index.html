@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es" class="bg-gray-900 text-white">
+
 <head>
     <meta charset="UTF-8">
     <title>Calculadora de ARL</title>
@@ -23,90 +24,101 @@
         }
     </script>
 </head>
+
 <body onload="toggleFields();" class="bg-gray-900 text-white min-h-screen">
     <div class="container mx-auto py-8">
         <!-- Título -->
-        <h1 class="text-3xl font-bold mb-6 text-center">Calculadora de ARL y ARL Intercalado</h1>
+        <h1 class="text-3xl font-bold mb-6 text-center">Simulador de gráfico de control multivariante ARL 2</h1>
 
         <!-- Formulario -->
         {% if error %}
-            <p class="text-red-500 text-center mb-4">{{ error }}</p>
+        <p class="text-red-500 text-center mb-4">{{ error }}</p>
         {% endif %}
         <form method="post" class="bg-gray-800 p-6 rounded-lg shadow-lg mb-8">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                     <label for="m" class="block font-medium mb-1">Número de Muestras (m):</label>
-                    <input type="number" id="m" name="m" required value="{{ m if m is not none else '' }}" class="w-full p-2 rounded bg-gray-700 text-white">
+                    <input type="number" id="m" name="m" required value="{{ m if m is not none else '' }}"
+                        class="w-full p-2 rounded bg-gray-700 text-white" min="1000" max="1000000" step="1000">
                 </div>
                 <div>
                     <label for="n" class="block font-medium mb-1">Tamaño de Muestra (n):</label>
-                    <input type="number" id="n" name="n" required value="{{ n if n is not none else '' }}" class="w-full p-2 rounded bg-gray-700 text-white">
+                    <input type="number" id="n" name="n" required value="{{ n if n is not none else '' }}"
+                        class="w-full p-2 rounded bg-gray-700 text-white" min="2" max="25" step="1">
                 </div>
                 <div>
                     <label for="p" class="block font-medium mb-1">Número de Variables (p):</label>
-                    <input type="number" id="p" name="p" required value="{{ p if p is not none else '' }}" class="w-full p-2 rounded bg-gray-700 text-white">
+                    <input type="number" id="p" name="p" required value="{{ p if p is not none else '' }}"
+                        class="w-full p-2 rounded bg-gray-700 text-white" min="1" max="15" step="1">
                 </div>
                 <div>
-                    <label for="Delta" class="block font-medium mb-1">Desplazamiento Delta:</label>
-                    <input type="number" step="any" id="Delta" name="Delta" required value="{{ Delta if Delta is not none else '' }}" class="w-full p-2 rounded bg-gray-700 text-white">
+                    <label for="Delta" class="block font-medium mb-1">Tamaño de cambio Delta:</label>
+                    <input type="number" step="any" id="Delta" name="Delta" required
+                        value="{{ Delta if Delta is not none else '' }}"
+                        class="w-full p-2 rounded bg-gray-700 text-white">
                 </div>
                 <div>
-                    <label for="L" class="block font-medium mb-1">Parámetro L:</label>
-                    <input type="number" id="L" name="L" required value="{{ L if L is not none else '' }}" class="w-full p-2 rounded bg-gray-700 text-white">
+                    <label for="L" class="block font-medium mb-1">Limite RL2:</label>
+                    <input type="number" id="L" name="L" required value="{{ L if L is not none else '' }}"
+                        class="w-full p-2 rounded bg-gray-700 text-white">
                 </div>
             </div>
 
             <div class="mt-4">
                 <label class="block font-medium mb-2">Seleccione una opción:</label>
                 <div class="flex items-center mb-2">
-                    <input type="radio" id="alpha_option" name="use_alpha" value="alpha" onclick="toggleFields();" {% if use_alpha == 'alpha' %}checked{% endif %} class="mr-2">
+                    <input type="radio" id="alpha_option" name="use_alpha" value="alpha" onclick="toggleFields();" {% if
+                        use_alpha=='alpha' %}checked{% endif %} class="mr-2">
                     <label for="alpha_option">Usar Alpha</label>
                 </div>
                 <div class="flex items-center mb-2">
-                    <input type="radio" id="LCynt_option" name="use_alpha" value="LCynt" onclick="toggleFields();" {% if use_alpha == 'LCynt' %}checked{% endif %} class="mr-2">
+                    <input type="radio" id="LCynt_option" name="use_alpha" value="LCynt" onclick="toggleFields();" {% if
+                        use_alpha=='LCynt' %}checked{% endif %} class="mr-2">
                     <label for="LCynt_option">Usar LCynt</label>
                 </div>
                 <div id="alpha_field" class="mt-2" style="display: none;">
                     <label for="alpha" class="block font-medium mb-1">Nivel de Significancia Alpha:</label>
-                    <input type="number" step="any" id="alpha" name="alpha" value="{{ alpha if alpha is not none else '' }}" class="w-full p-2 rounded bg-gray-700 text-white">
+                    <input type="number" step="any" id="alpha" name="alpha"
+                        value="{{ alpha if alpha is not none else '' }}"
+                        class="w-full p-2 rounded bg-gray-700 text-white" min="0" max="1" step="0.1">
                 </div>
                 <div id="LCynt_field" class="mt-2" style="display: none;">
                     <label for="LCynt" class="block font-medium mb-1">Límite de Control Superior (LCynt):</label>
-                    <input type="number" step="any" id="LCynt" name="LCynt" value="{{ LCynt if LCynt is not none else '' }}" class="w-full p-2 rounded bg-gray-700 text-white">
+                    <input type="number" step="any" id="LCynt" name="LCynt"
+                        value="{{ LCynt if LCynt is not none else '' }}"
+                        class="w-full p-2 rounded bg-gray-700 text-white">
                 </div>
             </div>
 
             <div class="mt-6">
-                <input type="submit" value="Calcular" class="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 rounded text-white font-bold">
+                <input type="submit" value="Calcular"
+                    class="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 rounded text-white font-bold">
             </div>
         </form>
 
         <!-- Resultados y Gráficas -->
         {% if results %}
-        <div class="flex flex-col md:flex-row md:space-x-6">
+        <!-- Contenedor de Resultados y Gráficas -->
+        <div class="w-full">
             <!-- Sección de Resultados -->
-            <div class="w-full md:w-1/4">
-                <div class="bg-gray-800 p-6 rounded-lg shadow-lg mb-6">
-                    <h2 class="text-2xl font-bold mb-4 text-center">Resultados</h2>
-                    <p><strong>ARL:</strong> {{ results['ARL'] }}</p>
-                    <p><strong>ARL Intercalado:</strong> {{ results['ARL_Intercalado'] }}</p>
-                </div>
+            <div class="bg-gray-800 p-6 rounded-lg shadow-lg mb-6">
+                <h2 class="text-2xl font-bold mb-4 text-center">Resultados</h2>
+                <p class="text-center"><strong>ARL Intercalado:</strong> {{ results['ARL_Intercalado'] }}</p>
             </div>
 
             <!-- Sección de Gráficas -->
-            <div class="w-full md:w-3/4">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="bg-gray-800 p-4 rounded-lg shadow-lg">
-                        <h2 class="text-xl font-bold mb-2 text-center">Gráfica de T² con Límite LCynt</h2>
-                        {{ grafica_t2|safe }}
-                    </div>
-                    <div class="bg-gray-800 p-4 rounded-lg shadow-lg">
-                        <h2 class="text-xl font-bold mb-2 text-center">Gráfica de CRL con Límite L</h2>
-                        {{ grafica_arl|safe }}
-                    </div>
+            <div class="grid grid-cols-1 gap-6">
+                <div class="bg-gray-800 p-4 rounded-lg shadow-lg">
+                    <h2 class="text-xl font-bold mb-2 text-center">Subgráfica de T² con Límite LCynt</h2>
+                    {{ grafica_t2|safe }}
+                </div>
+                <div class="bg-gray-800 p-4 rounded-lg shadow-lg">
+                    <h2 class="text-xl font-bold mb-2 text-center">Subgráfica de CRL con Límite L</h2>
+                    {{ grafica_crl|safe }}
                 </div>
             </div>
         </div>
+
         {% endif %}
     </div>
 
@@ -115,4 +127,5 @@
         toggleFields();
     </script>
 </body>
+
 </html>
