@@ -3,7 +3,18 @@ import numpy as np
 
 class GraphGenerator:
     @staticmethod
-    def graficar_t2_con_limite(t2_values, LCynt, title='Gráfico de Control T² de Hotelling'):
+    def graficar_t2_con_limite(t2_values, LCynt, title='Subgráfico de Control T² de Hotelling'):
+        """
+        Generates an interactive plotly graph for Hotelling's T² control chart with a specified control limit.
+        Parameters:
+        t2_values (list or array-like): A sequence of T² values to be plotted.
+        LCynt (float): The upper control limit for the T² values.
+        title (str, optional): The title of the graph. Default is 'Subgráfico de Control T² de Hotelling'.
+        Returns:
+        str: The HTML representation of the plotly graph.
+        """
+        
+        
         fig = go.Figure()
 
         x_values = np.arange(1, len(t2_values) + 1)
@@ -73,7 +84,18 @@ class GraphGenerator:
         return fig.to_html(full_html=False)
     
     @staticmethod
-    def graficar_arl(crl_points, L, title='Gráfico de CRL con Límite L'):
+    def graficar_arl(crl_points, L, title='Subgráfico de CRL con Límite L'):
+        """
+        Generates an interactive plot of CRL points with a specified limit L using Plotly.
+        Parameters:
+        crl_points (list or array-like): A list or array of CRL (conforming run length) values to be plotted.
+        L (float): The limit value to be plotted as a dashed red line.
+        title (str, optional): The title of the plot. Default is 'Subgráfico de CRL con Límite L'.
+        Returns:
+        str: The HTML representation of the plot.
+        """
+        
+        
 
         fig = go.Figure()
 
