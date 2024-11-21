@@ -14,6 +14,11 @@ class GraphGenerator:
         str: The HTML representation of the plotly graph.
         """
         
+        # Antes de graficar T²
+        # t2_values = GraphGenerator.downsample_data(t2_values, max_points=1000)
+        t2_values = t2_values[:1000]
+
+
         
         fig = go.Figure()
 
@@ -95,6 +100,9 @@ class GraphGenerator:
         str: The HTML representation of the plot.
         """
         
+        # Antes de graficar CRL
+        # crl_points = GraphGenerator.downsample_data(crl_points, max_points=1000)
+        crl_points = crl_points[:1000]
         
 
         fig = go.Figure()
@@ -165,3 +173,21 @@ class GraphGenerator:
 
         # Retornar el HTML de la gráfica
         return fig.to_html(full_html=False)
+    
+    
+    
+    def downsample_data(data, max_points=1000):
+        """
+        Reduce the number of points in the data to a maximum of max_points.
+        Parameters:
+        data (list or array-like): Original data to be downsampled.
+        max_points (int): Maximum number of points to retain.
+        Returns:
+        list: Downsampled data.
+        """
+        if len(data) > max_points:
+            indices = np.linspace(0, len(data) - 1, max_points, dtype=int)
+            return data[indices]
+        return data
+
+

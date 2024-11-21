@@ -22,11 +22,15 @@ def index():
         try:
             # Validar entrada
             m, n, p, Delta, L, alpha, LCynt = validate_input(request)
+            
+            print(m, n, p, Delta, L, alpha, LCynt)
 
             # Realizar cálculos
             results, t2_values, crl_points, LCynt_value = arl_calculator.calculate_arl(
                 m, n, p, Delta, L, alpha=alpha, LCynt=LCynt
             )
+            
+            print(results, LCynt_value)
 
             # Generar gráficas
             grafica_t2 = graph_generator.graficar_t2_con_limite(t2_values, LCynt_value)
