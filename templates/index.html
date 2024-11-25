@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>SIMULARDOR DE CRL 2</title>
+    <title>SIMULARDOR DE CRL</title>
     <!-- Incluir Tailwind CSS -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <!-- Incluir Plotly -->
@@ -28,7 +28,7 @@
 <body onload="toggleFields();" class="bg-gray-900 text-white min-h-screen">
     <div class="container mx-auto py-8">
         <!-- Título -->
-        <h1 class="text-3xl font-bold mb-6 text-center">Simulador de gráfico de control multivariante RL2</h1>
+        <h1 class="text-3xl font-bold mb-6 text-center">Simulador de gráfico de control multivariante CRL</h1>
 
         <!-- Formulario -->
         {% if error %}
@@ -58,7 +58,7 @@
                         class="w-full p-2 rounded bg-gray-700 text-white">
                 </div>
                 <div>
-                    <label for="L" class="block font-medium mb-1">Limite RL2:</label>
+                    <label for="L" class="block font-medium mb-1">Limite CRL:</label>
                     <input type="number" id="L" name="L" required value="{{ L if L is not none else '' }}"
                         class="w-full p-2 rounded bg-gray-700 text-white">
                 </div>
@@ -97,13 +97,13 @@
         </form>
 
         <!-- Resultados y Gráficas -->
-        {% if crl_intercalado %}
+        {% if crl %}
         <!-- Contenedor de Resultados y Gráficas -->
         <div class="w-full">
             <!-- Sección de Resultados -->
             <div class="bg-gray-800 p-6 rounded-lg shadow-lg mb-6">
                 <h2 class="text-2xl font-bold mb-4 text-center">Resultados</h2>
-                <p class="text-center"><strong>RL 2:</strong> {{ crl_intercalado }}</p>
+                <p class="text-center"><strong>CRL:</strong> {{ crl }}</p>
             </div>
 
             <!-- Sección de Gráficas -->

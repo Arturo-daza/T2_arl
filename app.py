@@ -1,9 +1,9 @@
 from flask import Flask, render_template, request
-from RL2_calculator import LR2Calculator
+from CRL_calculator import CRLCalculator
 from graph_generator import GraphGenerator
 
 app = Flask(__name__)
-rl2_calculator = LR2Calculator()
+crl_calculator = CRLCalculator()
 graph_generator = GraphGenerator()
 
 @app.route('/', methods=['GET', 'POST'])
@@ -26,7 +26,7 @@ def index():
             print(m, n, p, Delta, L, alpha, LCynt)
 
             # Realizar cálculos
-            crl_intercalado, t2_values, arl_points = rl2_calculator.calculate_lr2(
+            crl, t2_values, arl_points = crl_calculator.calculate_crl(
                 m, n, p, Delta, L, alpha=alpha, LCynt=LCynt
             )
                         
@@ -37,7 +37,7 @@ def index():
 
             return render_template(
                 'index.html',
-                crl_intercalado=crl_intercalado,
+                crl=crl,
                 m=m, n=n, p=p, Delta=Delta, L=L, alpha=alpha, LCynt=LCynt,
                 grafica_t2=grafica_t2, grafica_crl=grafica_crl
             )

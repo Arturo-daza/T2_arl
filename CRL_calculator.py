@@ -1,7 +1,7 @@
 import numpy as np
 from scipy.stats import f
 
-class LR2Calculator:
+class CRLCalculator:
     @staticmethod
     def carta_control_t2(x, xvar, S_inv, n):
         """
@@ -44,7 +44,7 @@ class LR2Calculator:
                     crl.append(i)
         return crl, arl
 
-    def calculate_lr2(self, m, n, p, Delta, L, alpha=None, LCynt=None):
+    def calculate_crl(self, m, n, p, Delta, L, alpha=None, LCynt=None):
         """
         Calculate the CRL intercalate and other related metrics for a given set of parameters.
         Parameters:
@@ -56,8 +56,7 @@ class LR2Calculator:
         alpha (float, optional): Significance level for the control limit. Default is None.
         LCynt (float, optional): Predefined control limit. Default is None.
         Returns:
-        dict: A dictionary containing:
-            - 'CRL_INTERCALADO' (float): The mean of the differences between every second run length, scaled by 1.4.
+        loat : 'crl' : The mean of the differences between every run length
         np.ndarray: Array of T2 values.
         np.ndarray: Array of differences between ARL points.
         float: Calculated or provided control limit (LCynt).
@@ -81,12 +80,6 @@ class LR2Calculator:
 
         crl_points, arl_points = self.contar_puntos_sintetico(t2_values, LCynt, L)
         arl_points = np.diff(arl_points)
-
-        crl_intercalado_mean = (
-            np.mean([crl_points[i + 2] - crl_points[i] for i in range(len(crl_points) - 2)]) * 1.4
-            if len(crl_points) > 2 else np.nan
-        )
-
         crl = np.mean(np.diff(crl_points)) if len(crl_points) > 1 else np.nan
 
-        return crl_intercalado_mean, t2_values, arl_points
+        return crl, t2_values, arl_points
