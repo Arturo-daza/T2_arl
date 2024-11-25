@@ -1,7 +1,7 @@
 import numpy as np
 from scipy.stats import f
 
-class ARLCalculator:
+class LR2Calculator:
     @staticmethod
     def carta_control_t2(x, xvar, S_inv, n):
         """
@@ -44,9 +44,9 @@ class ARLCalculator:
                     crl.append(i)
         return crl, arl
 
-    def calculate_arl(self, m, n, p, Delta, L, alpha=None, LCynt=None):
+    def calculate_lr2(self, m, n, p, Delta, L, alpha=None, LCynt=None):
         """
-        Calculate the Average Run Length (ARL) and other related metrics for a given set of parameters.
+        Calculate the CRL intercalate and other related metrics for a given set of parameters.
         Parameters:
         m (int): Number of samples.
         n (int): Sample size.
@@ -57,7 +57,6 @@ class ARLCalculator:
         LCynt (float, optional): Predefined control limit. Default is None.
         Returns:
         dict: A dictionary containing:
-            - 'CRL' (float): The mean of the differences between consecutive run lengths.
             - 'CRL_INTERCALADO' (float): The mean of the differences between every second run length, scaled by 1.4.
         np.ndarray: Array of T2 values.
         np.ndarray: Array of differences between ARL points.
@@ -90,7 +89,4 @@ class ARLCalculator:
 
         crl = np.mean(np.diff(crl_points)) if len(crl_points) > 1 else np.nan
 
-        return {
-            'CRL': crl,
-            'CRL_INTERCALADO': crl_intercalado_mean
-        }, t2_values, arl_points, LCynt
+        return crl_intercalado_mean, t2_values, arl_points

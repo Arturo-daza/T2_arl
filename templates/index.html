@@ -28,7 +28,7 @@
 <body onload="toggleFields();" class="bg-gray-900 text-white min-h-screen">
     <div class="container mx-auto py-8">
         <!-- Título -->
-        <h1 class="text-3xl font-bold mb-6 text-center">Simulador de gráfico de control multivariante CRL 2</h1>
+        <h1 class="text-3xl font-bold mb-6 text-center">Simulador de gráfico de control multivariante RL2</h1>
 
         <!-- Formulario -->
         {% if error %}
@@ -97,13 +97,13 @@
         </form>
 
         <!-- Resultados y Gráficas -->
-        {% if results %}
+        {% if crl_intercalado %}
         <!-- Contenedor de Resultados y Gráficas -->
         <div class="w-full">
             <!-- Sección de Resultados -->
             <div class="bg-gray-800 p-6 rounded-lg shadow-lg mb-6">
                 <h2 class="text-2xl font-bold mb-4 text-center">Resultados</h2>
-                <p class="text-center"><strong>CRL 2:</strong> {{ results['CRL_INTERCALADO'] }}</p>
+                <p class="text-center"><strong>RL 2:</strong> {{ crl_intercalado }}</p>
             </div>
 
             <!-- Sección de Gráficas -->

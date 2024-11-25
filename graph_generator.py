@@ -89,7 +89,7 @@ class GraphGenerator:
         return fig.to_html(full_html=False)
     
     @staticmethod
-    def graficar_arl(crl_points, L, title='Subgráfico de CRL con Límite L'):
+    def graficar_crl(crl_points, L, title='Subgráfico de CRL con Límite L'):
         """
         Generates an interactive plot of CRL points with a specified limit L using Plotly.
         Parameters:
