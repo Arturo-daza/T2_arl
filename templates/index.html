@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>SIMULARDOR DE CRL 2</title>
+    <title>SIMULARDOR DE RL 2</title>
     <!-- Incluir Tailwind CSS -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <!-- Incluir Plotly -->
@@ -104,6 +104,9 @@
             <div class="bg-gray-800 p-6 rounded-lg shadow-lg mb-6">
                 <h2 class="text-2xl font-bold mb-4 text-center">Resultados</h2>
                 <p class="text-center"><strong>RL 2:</strong> {{ crl_intercalado }}</p>
+                <br>
+                <p>El RL2 (Run Length 2), se enfoca en medir la longitud promedio entre cada segundo punto fuera de control en el gráfico. Este cálculo intercalado se realiza para identificar patrones de comportamiento que podrían no ser evidentes al considerar puntos consecutivos. Es útil para ajustar parámetros de control y optimizar la sensibilidad del sistema en escenarios complejos.
+                </p>
             </div>
 
             <!-- Sección de Gráficas -->
