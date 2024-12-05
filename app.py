@@ -1,9 +1,9 @@
 from flask import Flask, render_template, request
-from arl_calculator import ARLCalculator
+from CRL_calculator import CRLCalculator
 from graph_generator import GraphGenerator
 
 app = Flask(__name__)
-arl_calculator = ARLCalculator()
+crl_calculator = CRLCalculator()
 graph_generator = GraphGenerator()
 
 @app.route('/', methods=['GET', 'POST'])
@@ -26,19 +26,18 @@ def index():
             print(m, n, p, Delta, L, alpha, LCynt)
 
             # Realizar cálculos
-            results, t2_values, crl_points, LCynt_value = arl_calculator.calculate_arl(
+            crl, t2_values, arl_points = crl_calculator.calculate_crl(
                 m, n, p, Delta, L, alpha=alpha, LCynt=LCynt
             )
-            
-            print(results, LCynt_value)
-
+                        
             # Generar gráficas
-            grafica_t2 = graph_generator.graficar_t2_con_limite(t2_values, LCynt_value)
-            grafica_crl = graph_generator.graficar_arl(crl_points, L)
+            grafica_t2 = graph_generator.graficar_t2_con_limite(t2_values, LCynt)
+            grafica_crl = graph_generator.graficar_crl(arl_points, L)
+
 
             return render_template(
                 'index.html',
-                results=results,
+                crl=crl,
                 m=m, n=n, p=p, Delta=Delta, L=L, alpha=alpha, LCynt=LCynt,
                 grafica_t2=grafica_t2, grafica_crl=grafica_crl
             )
@@ -98,7 +97,7 @@ def validate_input(request):
                 raise ValueError("LCynt debe ser un valor positivo.")
         else:
             raise ValueError("Debe seleccionar una opción válida: Alpha o LCynt.")
-
+        
         return m, n, p, Delta, L, alpha, LCynt
 
     except KeyError as e:
