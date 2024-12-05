@@ -89,7 +89,7 @@ class GraphGenerator:
         return fig.to_html(full_html=False)
     
     @staticmethod
-    def graficar_arl(crl_points, L, title='Subgráfico de CRL con Límite L'):
+    def graficar_crl(crl_points, L, title='Subgráfico de CRL con Límite L'):
         """
         Generates an interactive plot of CRL points with a specified limit L using Plotly.
         Parameters:
@@ -111,7 +111,20 @@ class GraphGenerator:
         x_indices = np.arange(1, len(crl_points) + 1)
 
         # Crear una lista de colores basada en si el valor de CRL excede L
-        colors = ['#FF073A' if crl < L else 'cyan' for crl in crl_points]
+        outside_control_count = 0  # Contador para puntos fuera de control
+        colors = []
+
+        for crl in crl_points:
+            if crl < L:  # Si el punto está fuera del control
+                outside_control_count += 1
+                # Aplicar #FF073A a cada segundo punto fuera del control
+                if outside_control_count % 2 == 0:
+                    colors.append('#FF073A')
+                else:
+                    colors.append('cyan')
+            else:  # Si el punto está dentro del control
+                colors.append('cyan')
+
 
         # Añadir la línea que conecta los puntos de CRL
         fig.add_trace(go.Scattergl(
